@@ -73,7 +73,6 @@ NOTES = [
 ]
 """
 
-
 @app.route("/")
 def default_page():
     return "Start page"

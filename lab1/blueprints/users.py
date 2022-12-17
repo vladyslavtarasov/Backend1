@@ -3,24 +3,19 @@ from flask import request, abort, jsonify
 from flask_smorest import Blueprint
 
 from lab1.data import USERS
+from lab1.schemas import UserSchema
 
 blueprint = Blueprint("users", __name__, description="Users operations")
 
 @blueprint.route("/user")
 class UsersPost(MethodView):
-    def post(self):
-        request_data = {}
-        try:
-            request_data["name"] = request.get_json()["name"]
-            #global user_id
-            #user_id += 1
+    @blueprint.arguments(UserSchema)
+    def post(self, user_data):
+        user_id = USERS[-1]["id"] + 1
+        user_data["id"] = user_id
 
-            user_id = USERS[-1]["id"] + 1
-            request_data["id"] = user_id
-        except:
-            return "Error!"
-        USERS.append(request_data)
-        return request_data
+        USERS.append(user_data)
+        return user_data
 
 @blueprint.route("/users")
 class UsersGet(MethodView):

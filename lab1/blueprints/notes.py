@@ -6,31 +6,27 @@ import datetime
 from lab1.data import NOTES
 from lab1.data import USERS
 from lab1.data import CATEGORIES
+from lab1.schemas import NoteSchema
 
 blueprint = Blueprint("notes", __name__, description="Notes operations")
 
 @blueprint.route("/note")
 class NotesPost(MethodView):
-    def post(self):
-        request_data = request.get_json()
+    @blueprint.arguments(NoteSchema)
+    def post(self, note_data):
 
-        try:
-            if not (validation("id", request.get_json()["user_id"], USERS)
-                    and validation("id", request.get_json()["category_id"], CATEGORIES)):
-                return "Error, user or category is not found"
+        if not (validation("id", note_data["user_id"], USERS)
+                and validation("id", note_data["category_id"], CATEGORIES)):
+            return "Error, user or category is not found"
 
-            #global note_id
-            #note_id += 1
+        note_id = NOTES[-1]["id"] + 1
+        note_data["id"] = note_id
 
-            note_id = NOTES[-1]["id"] + 1
-            request_data["id"] = note_id
-            request_data["date_of_creating"] = datetime.datetime.now().strftime("%d.%m.%Y %H:%M:%S")
-            request_data["price"] = request.get_json()["price"]
-        except:
-            return "Error!"
+        if 'date_of_creating' not in note_data:
+            note_data["date_of_creating"] = datetime.datetime.now().strftime("%d.%m.%Y %H:%M:%S")
 
-        NOTES.append(request_data)
-        return request_data
+        NOTES.append(note_data)
+        return note_data
 
 @blueprint.route("/notes")
 class NotesGet(MethodView):

@@ -3,24 +3,19 @@ from flask import request, abort, jsonify
 from flask_smorest import Blueprint
 
 from lab1.data import CATEGORIES
+from lab1.schemas import CategorySchema
 
 blueprint = Blueprint("categories", __name__, description="Categories operations")
 
 @blueprint.route("/category")
 class CategoriesPost(MethodView):
-    def post(self):
-        request_data = {}
-        try:
-            request_data["title"] = request.get_json()["title"]
-            #global category_id
-            #category_id += 1
+    @blueprint.arguments(CategorySchema)
+    def post(self, category_data):
+        category_id = CATEGORIES[-1]["id"] + 1
+        category_data["id"] = category_id
 
-            category_id = CATEGORIES[-1]["id"] + 1
-            request_data["id"] = category_id
-        except:
-            return "Error!"
-        CATEGORIES.append(request_data)
-        return request_data
+        CATEGORIES.append(category_data)
+        return category_data
 
 @blueprint.route("/categories")
 class CategoriesGet(MethodView):
