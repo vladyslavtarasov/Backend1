@@ -2,10 +2,37 @@ from lab1 import app
 from flask import jsonify, request
 import datetime
 
+from flask_smorest import Blueprint as blueprint
+from flask_smorest import Api
+
+from lab1.data import *
+
+from lab1.blueprints.users import blueprint as UsersBlueprint
+from lab1.blueprints.categories import blueprint as CategoriesBlueprint
+from lab1.blueprints.notes import blueprint as NotesBlueprint
+
+app.config["PROPAGATE_EXCEPTION"] = True
+app.config["API_TITLE"] = "Backend labs"
+app.config["API_VERSION"] = "v1"
+app.config["OPENAPI_VERSION"] = "3.0.3"
+app.config["OPENAPI_URL_PREFIX"] = "/"
+app.config["OPENAPI_SWAGGER_UI_PATH"] = "/swagger-ui"
+app.config["OPENAPI_SWAGGER_UI_URL"] = "https://cdn.jsdelivr.net/npm/swagger-ui-dist/"
+
+api = Api(app)
+
+api.register_blueprint(UsersBlueprint)
+api.register_blueprint(CategoriesBlueprint)
+api.register_blueprint(NotesBlueprint)
+
+
+"""
 user_id = 2
 category_id = 2
 note_id = 2
+"""
 
+"""
 CATEGORIES = [
     {
         "id": 1,
@@ -44,13 +71,14 @@ NOTES = [
         "price": 300
     }
 ]
+"""
 
 
 @app.route("/")
 def default_page():
     return "Start page"
 
-
+"""
 @app.route("/user", methods=["POST"])
 def create_user():
     request_data = {}
@@ -63,8 +91,9 @@ def create_user():
         return "Error!"
     USERS.append(request_data)
     return request_data
+"""
 
-
+"""
 @app.route("/category", methods=["POST"])
 def create_category():
     request_data = {}
@@ -77,15 +106,17 @@ def create_category():
         return "Error!"
     CATEGORIES.append(request_data)
     return request_data
+"""
 
-
+"""
 def validation(key, value, arr):
     for i in arr:
         if i[key] == value:
             return True
     return False
+"""
 
-
+"""
 @app.route("/note", methods=["POST"])
 def create_note():
     request_data = request.get_json()
@@ -105,23 +136,27 @@ def create_note():
 
     NOTES.append(request_data)
     return request_data
+"""
 
-
+"""
 @app.route("/categories")
 def get_categories():
     return jsonify({"categories": CATEGORIES})
+"""
 
-
+"""
 @app.route("/users")
 def get_users():
     return jsonify({"users": USERS})
+    """
 
-
+"""
 @app.route("/notes")
 def get_notes():
     return jsonify({"notes": NOTES})
+"""
 
-
+"""
 @app.route("/notes/<int:user_id>")
 def get_notes_by_user(user_id):
     user_notes = []
@@ -129,8 +164,9 @@ def get_notes_by_user(user_id):
         if element['user_id'] == int(user_id):
             user_notes.append(element)
     return jsonify({"user": user_id, "notes": user_notes})
+"""
 
-
+"""
 @app.get("/notes/<int:user_id>/<int:category_id>")
 def get_notes_by_category(user_id, category_id):
     user_notes = []
@@ -138,3 +174,4 @@ def get_notes_by_category(user_id, category_id):
         if element['user_id'] == int(user_id) and element['category_id'] == int(category_id):
             user_notes.append(element)
     return jsonify({"user": user_id, "category": category_id, "notes": user_notes})
+"""
