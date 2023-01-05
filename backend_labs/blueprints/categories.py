@@ -2,8 +2,8 @@ from flask.views import MethodView
 from flask import request, abort, jsonify
 from flask_smorest import Blueprint
 
-from lab1.data import CATEGORIES
-from lab1.schemas import CategorySchema
+from backend_labs.data import CATEGORIES
+from backend_labs.schemas import CategorySchema
 
 blueprint = Blueprint("categories", __name__, description="Categories operations")
 

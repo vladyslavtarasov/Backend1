@@ -3,10 +3,10 @@ from flask import request, abort, jsonify
 from flask_smorest import Blueprint
 import datetime
 
-from lab1.data import NOTES
-from lab1.data import USERS
-from lab1.data import CATEGORIES
-from lab1.schemas import NoteSchema
+from backend_labs.data import NOTES
+from backend_labs.data import USERS
+from backend_labs.data import CATEGORIES
+from backend_labs.schemas import NoteSchema
 
 blueprint = Blueprint("notes", __name__, description="Notes operations")
 

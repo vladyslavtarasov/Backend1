@@ -2,8 +2,8 @@ from flask.views import MethodView
 from flask import request, abort, jsonify
 from flask_smorest import Blueprint
 
-from lab1.data import USERS
-from lab1.schemas import UserSchema
+from backend_labs.data import USERS
+from backend_labs.schemas import UserSchema
 
 blueprint = Blueprint("users", __name__, description="Users operations")
 

@@ -1,12 +1,12 @@
 FROM python:3.11.0
 
-ENV FLASK_APP=lab1
+ENV FLASK_APP=backend_labs
 
 COPY requirements.txt /opt
 
 RUN python3 -m pip install -r /opt/requirements.txt
 
-COPY lab1 /opt/lab1
+COPY backend_labs /opt/backend_labs
 
 WORKDIR /opt
 

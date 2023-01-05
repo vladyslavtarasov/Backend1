@@ -1,15 +1,17 @@
-from lab1 import app
+from backend_labs import app
 from flask import jsonify, request
 import datetime
 
 from flask_smorest import Blueprint as blueprint
 from flask_smorest import Api
 
-from lab1.data import *
+from backend_labs.data import *
 
-from lab1.blueprints.users import blueprint as UsersBlueprint
-from lab1.blueprints.categories import blueprint as CategoriesBlueprint
-from lab1.blueprints.notes import blueprint as NotesBlueprint
+from backend_labs.data import db
+
+from backend_labs.blueprints.users import blueprint as UsersBlueprint
+from backend_labs.blueprints.categories import blueprint as CategoriesBlueprint
+from backend_labs.blueprints.notes import blueprint as NotesBlueprint
 
 app.config["PROPAGATE_EXCEPTION"] = True
 app.config["API_TITLE"] = "Backend labs"
@@ -18,13 +20,23 @@ app.config["OPENAPI_VERSION"] = "3.0.3"
 app.config["OPENAPI_URL_PREFIX"] = "/"
 app.config["OPENAPI_SWAGGER_UI_PATH"] = "/swagger-ui"
 app.config["OPENAPI_SWAGGER_UI_URL"] = "https://cdn.jsdelivr.net/npm/swagger-ui-dist/"
+app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///data.db"
+app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 
 api = Api(app)
+
+db.init_app(app)
+
+with app.app_context():
+    db.create_all()
 
 api.register_blueprint(UsersBlueprint)
 api.register_blueprint(CategoriesBlueprint)
 api.register_blueprint(NotesBlueprint)
 
+@app.route("/")
+def default_page():
+    return "Start page"
 
 """
 user_id = 2
@@ -72,10 +84,6 @@ NOTES = [
     }
 ]
 """
-
-@app.route("/")
-def default_page():
-    return "Start page"
 
 """
 @app.route("/user", methods=["POST"])
