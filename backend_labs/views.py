@@ -1,11 +1,5 @@
 from backend_labs import app
-from flask import jsonify, request
-import datetime
-
-from flask_smorest import Blueprint as blueprint
 from flask_smorest import Api
-
-from backend_labs.data import *
 
 from backend_labs.data import db
 

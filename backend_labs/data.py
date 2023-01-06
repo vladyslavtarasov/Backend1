@@ -1,9 +1,8 @@
-import datetime
-
 from flask_sqlalchemy import SQLAlchemy
 
 db = SQLAlchemy()
 
+"""
 CATEGORIES = [
     {
         "id": 1,
@@ -42,3 +41,4 @@ NOTES = [
         "price": 300
     }
 ]
+"""

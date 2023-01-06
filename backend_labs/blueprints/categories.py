@@ -1,23 +1,31 @@
 from flask.views import MethodView
-from flask import request, abort, jsonify
-from flask_smorest import Blueprint
+from flask_smorest import Blueprint, abort
 
-from backend_labs.data import CATEGORIES
 from backend_labs.schemas import CategorySchema
+
+from backend_labs.models.category import CategoryModel
+
+from backend_labs.data import db
+from sqlalchemy.exc import IntegrityError
 
 blueprint = Blueprint("categories", __name__, description="Categories operations")
 
 @blueprint.route("/category")
-class CategoriesPost(MethodView):
+class CategoriesList(MethodView):
     @blueprint.arguments(CategorySchema)
     @blueprint.response(200, CategorySchema)
     def post(self, category_data):
-        category_id = CATEGORIES[-1]["id"] + 1
-        category_data["id"] = category_id
+        category = CategoryModel(**category_data)
 
-        CATEGORIES.append(category_data)
-        return category_data
+        try:
+            db.session.add(category)
+            db.session.commit()
+        except IntegrityError:
+            abort(400, message="This category already exists")
+
+        return category
 
     @blueprint.response(200, CategorySchema(many=True))
     def get(self):
-        return jsonify({"categories": CATEGORIES})
+        return CategoryModel.query.all()
+
