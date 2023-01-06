@@ -6,6 +6,7 @@ from backend_labs.data import db
 from backend_labs.blueprints.users import blueprint as UsersBlueprint
 from backend_labs.blueprints.categories import blueprint as CategoriesBlueprint
 from backend_labs.blueprints.notes import blueprint as NotesBlueprint
+from backend_labs.blueprints.accounts import blueprint as AccountsBlueprint
 
 app.config["PROPAGATE_EXCEPTION"] = True
 app.config["API_TITLE"] = "Backend labs"
@@ -27,6 +28,7 @@ with app.app_context():
 api.register_blueprint(UsersBlueprint)
 api.register_blueprint(CategoriesBlueprint)
 api.register_blueprint(NotesBlueprint)
+api.register_blueprint(AccountsBlueprint)
 
 @app.route("/")
 def default_page():

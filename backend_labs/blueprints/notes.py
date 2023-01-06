@@ -7,6 +7,7 @@ from backend_labs.schemas import NoteQuerySchema
 from backend_labs.models.note import NoteModel
 from backend_labs.models.category import CategoryModel
 from backend_labs.models.user import UserModel
+from backend_labs.models.account import AccountModel
 
 from backend_labs.data import db
 from sqlalchemy.exc import IntegrityError, NoResultFound
@@ -37,15 +38,19 @@ class NotesList(MethodView):
         note = NoteModel(**note_data)
         user_id = note_data.get("user_id")
         category_id = note_data.get("category_id")
+        price = note_data.get("price")
 
         try:
-            UserModel.query.filter(UserModel.id == user_id).one()
-            CategoryModel.query.filter(CategoryModel.id == category_id).one()
+            UserModel.query.filter(UserModel.id == user_id).first_or_404()
+            CategoryModel.query.filter(CategoryModel.id == category_id).first_or_404()
+
+            account = AccountModel.query.filter(AccountModel.user_id == user_id).first_or_404()
 
             db.session.add(note)
+
+            account.balance -= price
+
             db.session.commit()
-        except NoResultFound:
-            abort(404, message="Wrong user_id or category_id")
         except IntegrityError:
             abort(400, message="Error when creating a note")
 

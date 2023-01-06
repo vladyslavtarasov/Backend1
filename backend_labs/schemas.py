@@ -15,5 +15,14 @@ class NoteSchema(Schema):
     price = fields.Float(required=True)
 
 class NoteQuerySchema(Schema):
-    user_id = fields.Int(required=True)
+    user_id = fields.Int()
     category_id = fields.Int()
+
+class AccountSchema(Schema):
+    id = fields.Int(dump_only=True)
+    user_id = fields.Int(required=True)
+    balance = fields.Float(required=True)
+
+class AccountAddBalanceSchema(Schema):
+    account_id = fields.Int(required=True)
+    balance_to_add = fields.Float(required=True)
