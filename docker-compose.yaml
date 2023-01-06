@@ -1,12 +1,15 @@
 version: '3'
 
 services:
- lab1:
+ labs:
    restart: always
    build:
      context: .
      dockerfile: Dockerfile
+   volumes:
+     [ "./backend_labs:/opt/backend_labs" ]
    environment:
      PORT: "5000"
+     FLASK_DEBUG: True
    ports:
      - "5000:5000"

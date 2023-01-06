@@ -29,3 +29,8 @@ class CategoriesList(MethodView):
     def get(self):
         return CategoryModel.query.all()
 
+@blueprint.route("/category/<int:category_id>")
+class Category(MethodView):
+    @blueprint.response(200, CategorySchema)
+    def get(self, category_id):
+        return CategoryModel.query.get_or_404(category_id)

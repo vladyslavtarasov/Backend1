@@ -55,3 +55,9 @@ class NotesGet(MethodView):
     @blueprint.response(200, NoteSchema(many=True))
     def get(self):
         return NoteModel.query.all()
+
+@blueprint.route("/note/<int:note_id>")
+class Note(MethodView):
+    @blueprint.response(200, NoteSchema)
+    def get(self, note_id):
+        return NoteModel.query.get_or_404(note_id)

@@ -28,3 +28,9 @@ class UsersList(MethodView):
     @blueprint.response(200, UserSchema(many=True))
     def get(self):
         return UserModel.query.all()
+
+@blueprint.route("/user/<int:user_id>")
+class User(MethodView):
+    @blueprint.response(200, UserSchema)
+    def get(self, user_id):
+        return UserModel.query.get_or_404(user_id)
