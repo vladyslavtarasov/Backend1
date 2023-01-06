@@ -18,3 +18,7 @@ __Heroku__
 
 Open https://vladyslavtarasovlab1.herokuapp.com/
 
+## Additional task
+Group = IK-03   
+03 % 3 = 0   
+My additional task is __"Income accounting"__.
