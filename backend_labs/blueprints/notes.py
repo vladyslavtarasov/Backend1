@@ -18,11 +18,12 @@ class NotesList(MethodView):
     @blueprint.arguments(NoteQuerySchema, location="query", as_kwargs=True)
     @blueprint.response(200, NoteSchema(many=True))
     def get(self, **kwargs):
-        user_id = kwargs.get("user_id")
-        if not user_id:
-            abort(400, "Need user_id")
+        if len(kwargs) == 0:
+            return NoteModel.query.all()
 
-        query = NoteModel.query.filter(NoteModel.user_id == user_id)
+        user_id = kwargs.get("user_id")
+        if user_id:
+            query = NoteModel.query.filter(NoteModel.user_id == user_id)
 
         category_id = kwargs.get("category_id")
         if category_id:
@@ -49,12 +50,6 @@ class NotesList(MethodView):
             abort(400, message="Error when creating a note")
 
         return note
-
-@blueprint.route("/notes")
-class NotesGet(MethodView):
-    @blueprint.response(200, NoteSchema(many=True))
-    def get(self):
-        return NoteModel.query.all()
 
 @blueprint.route("/note/<int:note_id>")
 class Note(MethodView):
