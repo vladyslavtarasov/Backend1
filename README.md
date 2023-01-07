@@ -6,7 +6,7 @@
 __Python__
 1. Install Python and pip
 2. `git clone https://github.com/vladyslavtarasov/Backend1`
-3. `set FLASK_APP=lab1`
+3. `set FLASK_APP=backend_labs`
 4. `flask run`
 
 __Docker__
