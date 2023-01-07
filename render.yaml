@@ -1,0 +1,5 @@
+services:
+  - type: web
+    name: backend_labs
+    env: docker
+    rootDir: ./
