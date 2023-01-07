@@ -14,9 +14,9 @@ __Docker__
 2. `docker compose build`
 3. `docker compose up`
 
-__Heroku__
+__Render__
 
-Open https://vladyslavtarasovlab1.herokuapp.com/
+Open https://backend-labs-dxj1.onrender.com/
 
 ## Additional task
 Group = IK-03   
