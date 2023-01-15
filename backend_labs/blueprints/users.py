@@ -3,6 +3,7 @@ from flask_smorest import Blueprint, abort
 from passlib.hash import pbkdf2_sha256
 from flask_jwt_extended import create_access_token
 from flask import jsonify
+from flask_jwt_extended import jwt_required
 
 from backend_labs.schemas import UserSchema, UserLogin
 
@@ -50,5 +51,6 @@ class UserLogin(MethodView):
 @blueprint.route("/user/<int:user_id>")
 class User(MethodView):
     @blueprint.response(200, UserSchema)
+    @jwt_required()
     def get(self, user_id):
         return UserModel.query.get_or_404(user_id)

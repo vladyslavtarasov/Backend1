@@ -1,5 +1,6 @@
 from flask.views import MethodView
 from flask_smorest import Blueprint, abort
+from flask_jwt_extended import jwt_required
 
 from backend_labs.schemas import AccountSchema
 from backend_labs.schemas import AccountAddBalanceSchema
@@ -16,6 +17,7 @@ blueprint = Blueprint("accounts", __name__, description="Accounts operations")
 class AccountsList(MethodView):
     @blueprint.arguments(AccountSchema)
     @blueprint.response(200, AccountSchema)
+    @jwt_required()
     def post(self, account_data):
         account = AccountModel(**account_data)
 
@@ -33,6 +35,7 @@ class AccountsList(MethodView):
 
     @blueprint.arguments(AccountAddBalanceSchema, as_kwargs=True)
     @blueprint.response(200, AccountSchema())
+    @jwt_required()
     def put(self, **kwargs):
         account_id = kwargs.get("account_id")
         balance_to_add = kwargs.get("balance_to_add")
@@ -51,5 +54,6 @@ class AccountsList(MethodView):
 @blueprint.route("/account/<int:account_id>")
 class Account(MethodView):
     @blueprint.response(200, AccountSchema)
+    @jwt_required()
     def get(self, account_id):
         return AccountModel.query.get_or_404(account_id)

@@ -1,5 +1,6 @@
 from flask.views import MethodView
 from flask_smorest import Blueprint, abort
+from flask_jwt_extended import jwt_required
 
 from backend_labs.schemas import NoteSchema
 from backend_labs.schemas import NoteQuerySchema
@@ -18,6 +19,7 @@ blueprint = Blueprint("notes", __name__, description="Notes operations")
 class NotesList(MethodView):
     @blueprint.arguments(NoteQuerySchema, location="query", as_kwargs=True)
     @blueprint.response(200, NoteSchema(many=True))
+    @jwt_required()
     def get(self, **kwargs):
         if len(kwargs) == 0:
             return NoteModel.query.all()
@@ -34,6 +36,7 @@ class NotesList(MethodView):
 
     @blueprint.arguments(NoteSchema)
     @blueprint.response(200, NoteSchema)
+    @jwt_required()
     def post(self, note_data):
         note = NoteModel(**note_data)
         user_id = note_data.get("user_id")
@@ -59,5 +62,6 @@ class NotesList(MethodView):
 @blueprint.route("/note/<int:note_id>")
 class Note(MethodView):
     @blueprint.response(200, NoteSchema)
+    @jwt_required()
     def get(self, note_id):
         return NoteModel.query.get_or_404(note_id)

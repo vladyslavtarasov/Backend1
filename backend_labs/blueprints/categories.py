@@ -1,5 +1,6 @@
 from flask.views import MethodView
 from flask_smorest import Blueprint, abort
+from flask_jwt_extended import jwt_required
 
 from backend_labs.schemas import CategorySchema
 
@@ -14,6 +15,7 @@ blueprint = Blueprint("categories", __name__, description="Categories operations
 class CategoriesList(MethodView):
     @blueprint.arguments(CategorySchema)
     @blueprint.response(200, CategorySchema)
+    @jwt_required()
     def post(self, category_data):
         category = CategoryModel(**category_data)
 
@@ -32,5 +34,6 @@ class CategoriesList(MethodView):
 @blueprint.route("/category/<int:category_id>")
 class Category(MethodView):
     @blueprint.response(200, CategorySchema)
+    @jwt_required()
     def get(self, category_id):
         return CategoryModel.query.get_or_404(category_id)
