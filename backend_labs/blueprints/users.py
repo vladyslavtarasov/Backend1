@@ -32,6 +32,9 @@ class UserRegister(MethodView):
 
         return user
 
+@blueprint.route("/users")
+class UserRegister(MethodView):
+    @jwt_required()
     @blueprint.response(200, UserSchema(many=True))
     def get(self):
         return UserModel.query.all()
