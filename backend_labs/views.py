@@ -1,5 +1,8 @@
+import os
+
 from backend_labs import app
-from flask_smorest import Api
+from flask_smorest import Api #type:ignore
+from flask_jwt_extended import JWTManager #type:ignore
 
 from backend_labs.data import db
 
@@ -17,10 +20,13 @@ app.config["OPENAPI_SWAGGER_UI_PATH"] = "/swagger-ui"
 app.config["OPENAPI_SWAGGER_UI_URL"] = "https://cdn.jsdelivr.net/npm/swagger-ui-dist/"
 app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///data.db"
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
+app.config["JWT_SECRET_KEY"] = os.getenv("JWT_SECRET_KEY")
 
 api = Api(app)
 
 db.init_app(app)
+
+jwt = JWTManager(app)
 
 with app.app_context():
     db.create_all()
