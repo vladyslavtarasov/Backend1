@@ -30,7 +30,7 @@ class UserRegister(MethodView):
         except IntegrityError:
             abort(400, message="This username is already used")
 
-        return user
+        return jsonify(user_data["name"])
 
 @blueprint.route("/users")
 class UserRegister(MethodView):
